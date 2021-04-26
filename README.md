@@ -25,7 +25,7 @@ This project involves hopping between the front and the back ends. One possible 
 frontend:
   - add signup/login/logout routes, wire up those forms to create users in the backend
   - set up your backend url using .env, and replace any hard-coded references to localhost
-  - create user state in App
+  - create user state at the top level (either in App or in a context)
 
 backend:
   - create a user model, set up the routes that the forms hit (POST /users, POST /users/login, GET /users/verify). this will involve making a router & controller for users. confirm that users are getting created in database when the frontend form is submitted
