@@ -13,7 +13,7 @@ const Signup = () => {
     const handleSubmit = async(e, formParams) => {
         e.preventDefault();
 
-        const response = await fetch('http://localhost:3001/user/signup', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/signup`, {
             method: 'POST',
             headers: {
             'Accept': 'application/json',

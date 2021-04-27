@@ -12,7 +12,7 @@ const Login = () => {
     const handleSubmit = async(e, formParams) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:3001/user/login', {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/login`, {
                 method: 'POST',
                 headers: {
                 'Accept': 'application/json',

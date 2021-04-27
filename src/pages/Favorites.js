@@ -10,7 +10,7 @@ export default function Favorites() {
 
     const getFavorites = () => {
    
-        fetch('http://localhost:3001/favPokemon')
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/favPokemon`)
         .then(response => response.json())
         .then(data => {
             setFavorites(data.favPokemon)
@@ -18,7 +18,7 @@ export default function Favorites() {
     };
 
     const removeFavoritePokemon = (e, name) => {
-        fetch('http://localhost:3001/favPokemon/' + name, {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/favPokemon/` + name, {
             method: 'DELETE',
         }).then(getFavorites);
     };

@@ -16,7 +16,7 @@ export default function Pokemons() {
     const getAllPokemons = () => {
         Promise.all([
             fetch('https://pokeapi.co/api/v2/pokemon').then(response => response.json()),
-            fetch('http://localhost:3001/favPokemon').then(response => response.json())
+            fetch(`${process.env.REACT_APP_BACKEND_URL}/favPokemon`).then(response => response.json())
         ])
        .then(data => {
             const allPokemons = data[0].results.map(pokemon => {
