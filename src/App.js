@@ -19,10 +19,13 @@ function App() {
   // fetch saved pokemon from the database function
   const fetchSavedPokemon = async () => {
     try {
-      let response = await axios.get('http://localhost:3001/favPokemon')
-      console.log(response)
-      // assign to state of favPokemon
-      setFavPokemon(response.data.favPokemon)
+      if(user.id){
+
+        let response = await axios.get('http://localhost:3001/favPokemon')
+        console.log(response)
+        // assign to state of favPokemon
+        setFavPokemon(response.data.favPokemon)
+      }
 
       // create an empty array
       let names = []
