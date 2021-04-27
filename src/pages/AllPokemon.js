@@ -13,7 +13,6 @@ const AllPokemon = (props) => {
     const fetchAllPokemon = async () => {
         try {
             let response = await axios.get(`${process.env.REACT_APP_API}`)
-            // console.log(response.data.results)
             setAllPokemon(response.data.results)
         } catch (error) {
             console.log(error)
@@ -23,17 +22,12 @@ const AllPokemon = (props) => {
     useEffect(() => {
         fetchAllPokemon()
     },[])
-
-    // filter through the full array of pokemon and if the pokemon.name includes the search term 
-    // then set the filteredResults to be an array with the filtered results
     const filter = (term) => {
-        // returns an array with all the items that includes the term passed in
         let filtered = allPokemon.filter((pokemon) => {
             return pokemon.name.includes(term)
         })
         setFilteredResults(filtered)
     }
-    // this useEffect watches every time the filteredSearch changes (every letter we type in or delete) then run the filter function again 
     useEffect(() => {
         filter(filteredSearch)
     },[filteredSearch])
@@ -47,18 +41,12 @@ const AllPokemon = (props) => {
             setFilteredSearch={setFilteredSearch}
             />
             <PokemonList 
-            // pass down all the pokemon
-            allPokemon = {allPokemon}
-            // pass down the filtered results
-            filteredResults = {filteredResults}
-            // pass down the searchTerm (whatever we type into the input)
-            filteredSearch ={filteredSearch}
-            // pass down the save pokemon function to save a pokemon to our backend
-            savePokemon ={props.savePokemon}
-            // pass down the isFave to evaluate if a pokemon has been favorited
-            isFave = {props.isFave}
-            // pass down the deletePokemon function to delete a pokemon from our backend
-            deletePokemon={props.deletePokemon}
+                allPokemon = {allPokemon}
+                filteredResults = {filteredResults}
+                filteredSearch ={filteredSearch}
+                savePokemon ={props.savePokemon}
+                isFave = {props.isFave}
+                deletePokemon={props.deletePokemon}
             />
         </div>
     )

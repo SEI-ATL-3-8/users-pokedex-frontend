@@ -1,8 +1,8 @@
 const Home = () => {
     return (
-        <div>
+        <h1>
             Welcome to Pokedex!
-        </div>
+        </h1>
     )
 }
 

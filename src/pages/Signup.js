@@ -1,11 +1,13 @@
 import { useState, useContext } from 'react'
 import { UserContext } from '../context/UserContext'
 import axios from 'axios'
+import { Redirect } from 'react-router-dom'
 
 const SignUp = () => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [redirectState, setRedirectState] = useState('')
 
     const {userState} = useContext(UserContext)
     const [user, setUser] = userState
@@ -21,12 +23,15 @@ const SignUp = () => {
             email: email,
             password: password
         })
-        localStorage.setItem('userId', response.data.user.id)
-        setUser(response.data.user)
+        localStorage.setItem('userId', response.data.userId)
+        setUser(response.data.userId)
+        setRedirectState(response.data.userId)
     }
 
     return (
         <div>
+            { redirectState.length > 0 ? <Redirect to='/pokemon' />
+            :
             <form onSubmit={submitForm}>
                 <div>
                     <label htmlFor="name">Name:</label>
@@ -44,6 +49,8 @@ const SignUp = () => {
                     <input type="submit" value="Sign Up" />
                 </div>
             </form>
+            }
+            
         </div>
     )
 }

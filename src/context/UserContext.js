@@ -10,12 +10,12 @@ const UserProvider = ({children}) => {
         const userId = localStorage.getItem('userId')
 
         if (userId) {
-            let response = await axios.get(`${process.env.REACT_APP_BACKEND}/users/verify`, {
+            let response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/verify`, {
                 headers: {
                     Authorization: userId
                 }
             })
-            setUser(response.data.user)
+            setUser(response.data.userId)
         }
     }
 
