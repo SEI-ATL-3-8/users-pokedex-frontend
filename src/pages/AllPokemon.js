@@ -4,21 +4,22 @@ import axios from 'axios'
 import {useEffect, useState} from 'react'
 import PokemonList from '../components/PokemonList'
 import Filterbar from '../components/Filterbar'
+
 const AllPokemon = (props) => {
     const[allPokemon, setAllPokemon] = useState([])
     const [filteredSearch, setFilteredSearch]= useState('')
     const [filteredResults, setFilteredResults] = useState([])
- 
+
 
     const fetchAllPokemon = async () => {
         try {
-            let response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=20&offset=200')
+            let response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=151')
             // console.log(response.data.results)
             setAllPokemon(response.data.results)
         } catch (error) {
             console.log(error)
         }
-      
+    
     }
     useEffect(() => {
         fetchAllPokemon()
