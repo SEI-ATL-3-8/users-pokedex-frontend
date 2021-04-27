@@ -2,7 +2,8 @@ import {Link} from 'react-router-dom'
 
 const Navbar = () => {
     return (
-        <ul>
+        <ul className ='navbar'>
+            <>
             <li>
                 <Link 
                 to="/">
@@ -10,11 +11,27 @@ const Navbar = () => {
                 </Link>
             </li>
             <li>
+            {' | --     |'} {' -- | '}
                 <Link 
                 to="/favorites">
                     My Favorites
                 </Link>
             </li>
+            </>
+            <>
+            <li>
+                {' | --     |'} {' -- | '}
+                <Link to = '/login'>Login</Link>
+            </li>
+            <li>
+                {' | --     |'} {' -- | '}
+                <Link to = '/signup'>Signup</Link>
+            </li>
+            <li>
+                {' | --     |'} {' -- | '}
+                <Link to = '/profile'>Profile</Link>
+            </li>
+            </>
         </ul>
     )
 }
