@@ -3,8 +3,10 @@ import FavPokemon from './pages/FavPokemon'
 import Navbar from './components/Navbar'
 import {Route} from 'react-router-dom'
 import './App.css';
+import Signup from './pages/Signup'
+import Login from './pages/Login'
 import axios from 'axios'
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useReducer} from 'react'
 
 function App() {
   const [favPokemon,setFavPokemon] = useState([])
@@ -92,7 +94,12 @@ function App() {
         />
         }
       />
-      
+      <Route
+      path="/signup"
+      render={() =>
+        <Signup setUser={setUser} /> 
+        }
+      />
     </div>
   );
 }
