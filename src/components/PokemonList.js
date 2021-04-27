@@ -10,7 +10,7 @@ const PokemonList = (props) => {
                     {props.isFave(pokemon.name) ? 
                         <span className="heartOutline" onClick={() => props.deletePokemon(pokemon.name)}>❤️</span>
                         :
-                        <span className="heartOutline" onClick={() => props.savePokemon(pokemon.name, pokemon.url)}>♡</span>
+                        <span className="heartOutline" onClick={() => props.savePokemon(pokemon.name)}>♡</span>
                     }
                     
                 </div>
@@ -24,10 +24,8 @@ const PokemonList = (props) => {
                     {props.isFave(pokemon.name) ? 
                         <span className="heartOutline" onClick={() => props.deletePokemon(pokemon.name)}>❤️</span>
                         :
-                        <span className="heartOutline" onClick={() => {
-                            console.log('Clicked save!')
-                            props.savePokemon(pokemon.name)
-                        }}>♡</span>
+                        <span className="heartOutline" onClick={() => props.savePokemon(pokemon.name)
+                        }>♡</span>
                     }
                 </div>
             ))

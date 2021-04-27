@@ -59,6 +59,7 @@ input {
 
 .nav-link:hover, .nav-logout:hover {
   color: crimson;
+  cursor: pointer;
 }
 
 .nav-side-margin {

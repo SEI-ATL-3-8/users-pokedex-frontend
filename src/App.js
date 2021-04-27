@@ -77,7 +77,14 @@ function App() {
 
     const deletePokemon = async (pokemonName) => {
       try {
-        let res = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/favPokemon/${pokemonName}`)
+        const userId = localStorage.getItem('userId')
+        console.log(userId)
+
+        let res = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/favPokemon/${pokemonName}`, {
+          headers: {
+            Authorization: userId
+          }
+        })
         console.log(res)
         fetchSavedPokemon()
       } catch (error) {
