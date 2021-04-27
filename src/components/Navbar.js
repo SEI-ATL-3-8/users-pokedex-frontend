@@ -15,6 +15,11 @@ const Navbar = () => {
                     My Favorites
                 </Link>
             </li>
+            <li>
+            <Link to="/signup">
+                SignUp
+            </Link>
+            </li>
         </ul>
     )
 }
