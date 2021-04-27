@@ -2,20 +2,11 @@ import {Link} from 'react-router-dom'
 
 const Navbar = () => {
     return (
-        <ul>
-            <li>
-                <Link 
-                to="/">
-                    All Pokemon
-                </Link>
-            </li>
-            <li>
-                <Link 
-                to="/favorites">
-                    My Favorites
-                </Link>
-            </li>
-        </ul>
+        <nav>
+            <Link to="/">Home</Link>
+            <Link to="/Login">Login</Link>
+            <Link to="/Signup">Sign Up</Link>
+        </nav>
     )
 }
 
