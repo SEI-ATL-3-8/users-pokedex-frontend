@@ -22,7 +22,6 @@ const Login = () => {
             password: password
         })
         localStorage.setItem('userId', response.data.userId)
-        console.log(response.data.userId)
         setUser(response.data.userId)
         setRedirectState(response.data.userId)
         

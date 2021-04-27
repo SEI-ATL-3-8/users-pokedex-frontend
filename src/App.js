@@ -28,7 +28,6 @@ function App() {
           Authorization: userId
         }
       })
-      console.log(response)
       setFavPokemon(response.data.savedPokemon)
 
       let names = []
@@ -52,7 +51,6 @@ function App() {
   const savePokemon = async (pokemonName) => {
     try {
       const userId = localStorage.getItem('userId')
-      console.log(userId)
 
       let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/favPokemon`, {
        name: pokemonName
@@ -62,7 +60,7 @@ function App() {
         }
       })
       fetchSavedPokemon()
-      console.log(res)
+
     } catch (error) {
       console.log(error)
     }
@@ -78,14 +76,14 @@ function App() {
     const deletePokemon = async (pokemonName) => {
       try {
         const userId = localStorage.getItem('userId')
-        console.log(userId)
+
 
         let res = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/favPokemon/${pokemonName}`, {
           headers: {
             Authorization: userId
           }
         })
-        console.log(res)
+
         fetchSavedPokemon()
       } catch (error) {
         console.log(error)
