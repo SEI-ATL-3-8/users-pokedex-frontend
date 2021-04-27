@@ -1,9 +1,11 @@
 import SignupLoginForm from '../components/SignupLoginForm'
 
-const Signup = () => {
+const Signup = (props) => {
   return (
     <SignupLoginForm
       buttonText="Sign up!"
+      setUser={props.setUser}
+      route="/users"
     />
   )
 }

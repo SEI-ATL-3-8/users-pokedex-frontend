@@ -8,13 +8,14 @@ import './App.css';
 import axios from 'axios'
 import {useState, useEffect} from 'react'
 
-function App() {
+function App() {  
+  const [user, setUser] = useState({})  
   const [favPokemon,setFavPokemon] = useState([])
   const [favPokemonNames, setFavPokemonNames] = useState([])
   // fetch saved pokemon from the database function
   const fetchSavedPokemon = async () => {
     try {
-      let response = await axios.get('http://localhost:3001/favPokemon')
+      let response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/favPokemon`)
       console.log(response)
       // assign to state of favPokemon
       setFavPokemon(response.data.favPokemon)
@@ -42,7 +43,7 @@ function App() {
 
   const savePokemon = async (pokemonName) => {
     try {
-      let res = await axios.post('http://localhost:3001/favPokemon', {
+      let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/favPokemon`, {
         name: pokemonName
       })
       // after every save, refetch all saved pokemon and update
@@ -97,13 +98,13 @@ function App() {
       <Route 
       exact path = "/signup"
       render={() => 
-        <Signup />
+        <Signup setUser={setUser} />
         }
       />
       <Route 
       exact path = "/login"
       render={() => 
-        <Login />
+        <Login setUser={setUser} />
         }
       />
       

@@ -1,12 +1,25 @@
+import axios from 'axios'
 import { useState } from 'react'
 
 const SignupLoginForm = (props) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}${props.route}`, { email, password })
+    .then((response) => {
+      props.setUser(response.data.user)
+      localStorage.setItem('userId', response.data.user.id)
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
+
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="new-email">Email: </label>
           <input id="new-email" value={email} onChange={(e) => { setEmail(e.target.value) }}/>
