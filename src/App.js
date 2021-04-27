@@ -1,32 +1,46 @@
 import AllPokemon from './pages/AllPokemon'
 import FavPokemon from './pages/FavPokemon'
+import Signup from './pages/Signup'
+import Login from './pages/Login'
 import Navbar from './components/Navbar'
-import {Route} from 'react-router-dom'
+import {Route, Redirect} from 'react-router-dom'
 import './App.css';
 import axios from 'axios'
-import {useState, useEffect} from 'react'
+import env from 'react-dotenv';
+import {useState, useEffect, useContext} from 'react'
+import {UserContext} from './context/UserContext'
 
 function App() {
   const [favPokemon,setFavPokemon] = useState([])
   const [favPokemonNames, setFavPokemonNames] = useState([])
+  const {userState, verifyUser } = useContext(UserContext);
+  const [user, setUser] = userState;
+
+  useEffect(verifyUser, []);
   // fetch saved pokemon from the database function
   const fetchSavedPokemon = async () => {
     try {
-      let response = await axios.get('http://localhost:3001/favPokemon')
-      console.log(response)
-      // assign to state of favPokemon
-      setFavPokemon(response.data.favPokemon)
-
-      // create an empty array
-      let names = []
-      // loop through the favorite pokemon array 
-      for(let pokemon of response.data.favPokemon) {
-        // only push the names of each favorited pokemon into names
-        names.push(pokemon.name)
+      const userId = localStorage.getItem('userId')
+      if (userId)
+      {
+        let response = await axios.get(`${env.BACKEND_URL}/favPokemon`, {
+          headers: {Authorization: userId}
+        })
+        console.log(response)
+        // assign to state of favPokemon
+        setFavPokemon(response.data.favPokemon)
+  
+        // create an empty array
+        let names = []
+        // loop through the favorite pokemon array 
+        for(let pokemon of response.data.favPokemon) {
+          // only push the names of each favorited pokemon into names
+          names.push(pokemon.name)
+        }
+        // then set favpokemonnames to an array of just the saved pokemon names
+        // to be used in the isFave function
+        setFavPokemonNames(names)
       }
-      // then set favpokemonnames to an array of just the saved pokemon names
-      // to be used in the isFave function
-      setFavPokemonNames(names)
     } catch (error) {
       console.log(error)
     }
@@ -40,12 +54,18 @@ function App() {
 
   const savePokemon = async (pokemonName) => {
     try {
-      let res = await axios.post('http://localhost:3001/favPokemon', {
-        name: pokemonName
-      })
-      // after every save, refetch all saved pokemon and update
-      fetchSavedPokemon()
-      console.log(res)
+      const userId = localStorage.getItem('userId')
+      if(userId)
+      {
+        let res = await axios.post(`${env.BACKEND_URL}/favPokemon`, {
+          name: pokemonName
+        }, {
+          headers: {Authorization: userId}
+        })
+        // after every save, refetch all saved pokemon and update
+        fetchSavedPokemon()
+        // console.log(res)
+      }
     } catch (error) {
       console.log(error)
     }
@@ -61,9 +81,15 @@ function App() {
 
     const deletePokemon = async (pokemonName) => {
       try {
-        let res = await axios.delete(`http://localhost:3001/favPokemon/${pokemonName}`)
-        console.log(res)
-        fetchSavedPokemon()
+        const userId = localStorage.getItem('userId')
+        if(userId)
+        {
+          let res = await axios.delete(`${env.BACKEND_URL}/favPokemon/${pokemonName}`, {
+            headers: {Authorization: userId}
+          })
+          // console.log(res)
+          fetchSavedPokemon()
+        }
       } catch (error) {
         console.log(error)
       }
@@ -74,24 +100,42 @@ function App() {
       <Navbar />
       <Route 
         exact path = "/"
-        render={() => 
-          <AllPokemon
-          savePokemon = {savePokemon} 
-          isFave = {isFave}
-          deletePokemon ={deletePokemon}
-          />
+        render={() => {
+          if (user.id) {
+            return <AllPokemon
+            savePokemon = {savePokemon} 
+            isFave = {isFave}
+            deletePokemon ={deletePokemon}
+            />
+          }
+          else
+          {
+            return <Redirect to="/login"/>
+          }
+        }
         }
       />
       <Route 
       exact path = "/favorites"
-      render={() => 
-        <FavPokemon 
-        favPokemon ={favPokemon}
-        isFave = {isFave}
-        deletePokemon ={deletePokemon}
-        />
+      render={() => {
+        if (user.id) {
+          return <FavPokemon 
+          favPokemon ={favPokemon}
+          isFave = {isFave}
+          deletePokemon ={deletePokemon}
+          />
+        }
+        else
+        {
+          return <Redirect to="/login"/>
+        }
+      }
         }
       />
+
+      <Route exact path="/signup" render={() => {if (user.id) {return <Redirect to="/favorites"/>} else {return <Signup setUser={setUser} fetchSavedPokemon={fetchSavedPokemon}/>}}}/>
+
+      <Route exact path="/login" render={() => {if (user.id) {return <Redirect to="/favorites"/>} else {return <Login setUser={setUser} fetchSavedPokemon={fetchSavedPokemon}/>}}}/>
       
     </div>
   );
