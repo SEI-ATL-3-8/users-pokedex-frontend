@@ -16,7 +16,14 @@ export default function Pokemons() {
     const getAllPokemons = () => {
         Promise.all([
             fetch('https://pokeapi.co/api/v2/pokemon').then(response => response.json()),
-            fetch(`${process.env.REACT_APP_BACKEND_URL}/favPokemon`).then(response => response.json())
+            fetch(`${process.env.REACT_APP_BACKEND_URL}/favPokemon`,{
+                method: 'GET',
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'authorization': localStorage.getItem('userToken')
+                }
+            }).then(response => response.json())
         ])
        .then(data => {
             const allPokemons = data[0].results.map(pokemon => {
@@ -38,7 +45,8 @@ export default function Pokemons() {
             method: 'POST',
             headers: {
               'Accept': 'application/json',
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'authorization': localStorage.getItem('userToken')
             },
             body: JSON.stringify({name})
         }).then(getAllPokemons);
@@ -54,7 +62,7 @@ export default function Pokemons() {
         setFilteredPokemons(allPokemons);
     },[ allPokemons ]);
 
-    
+    console.log(filteredPokemons);
     return (
         <div className="container">
             {!loaded ? 
