@@ -12,7 +12,7 @@ const AllPokemon = (props) => {
 
     const fetchAllPokemon = async () => {
         try {
-            let response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=20&offset=200')
+            let response = await axios.get(process.env.REACT_APP_FRONTEND_URL)
             // console.log(response.data.results)
             setAllPokemon(response.data.results)
         } catch (error) {
