@@ -1,8 +1,9 @@
-.App {
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 li {
   list-style: none;
 }
@@ -27,10 +28,40 @@ form {
 
 input {
   font-size: 1.5rem;
-  width: 100%;
+  width: 200px;
   box-sizing: border-box;
 }
 .heartOutline {
   font-size: 2rem;
   cursor: pointer;
+}
+
+.nav-bar {
+  background-color: rgb(38, 38, 38);
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.nav-link, .nav-logout {
+  margin-left: 20px;
+  color: white;
+  text-decoration: none;
+  font-size: 1.3rem;
+}
+
+.nav-active {
+  color: crimson;
+}
+
+.nav-link:hover, .nav-logout:hover {
+  color: crimson;
+  cursor: pointer;
+}
+
+.nav-side-margin {
+  width: 5%;
 }
