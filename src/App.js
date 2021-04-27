@@ -1,7 +1,7 @@
 import AllPokemon from './pages/AllPokemon'
 import FavPokemon from './pages/FavPokemon'
 import Navbar from './components/Navbar'
-import { Route } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom'
 import './App.css';
 import axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
@@ -14,6 +14,7 @@ function App() {
   const [favPokemonNames, setFavPokemonNames] = useState([])
   const { userState, fetchUser } = useContext(UserContext)
   const [user, setUser] = userState
+
   // fetch saved pokemon from the database function
   const fetchSavedPokemon = async () => {
     try {
@@ -22,7 +23,6 @@ function App() {
           Authorization: localStorage.getItem('userId')
         }
       })
-      console.log(response)
       // assign to state of favPokemon
       setFavPokemon(response.data.favPokemon)
 
@@ -45,8 +45,10 @@ function App() {
   // will not update saved pokemon everytime you save one!!!
   useEffect(() => {
     fetchUser()
-    fetchSavedPokemon()
-  }, [])
+    if (user.id) {
+      fetchSavedPokemon()
+    }
+  }, [user.id])
 
   const savePokemon = async (pokemonName) => {
     try {
@@ -88,22 +90,30 @@ function App() {
       <Navbar />
       <Route
         exact path="/"
-        render={() =>
-          <AllPokemon
-            savePokemon={savePokemon}
-            isFave={isFave}
-            deletePokemon={deletePokemon}
-          />
-        }
+        render={() => {
+          return user.id ?
+            <AllPokemon
+              savePokemon={savePokemon}
+              isFave={isFave}
+              deletePokemon={deletePokemon}
+            />
+            :
+            <Redirect to="/login" />
+        }}
       />
       <Route
         exact path="/favorites"
-        render={() =>
-          <FavPokemon
-            favPokemon={favPokemon}
-            isFave={isFave}
-            deletePokemon={deletePokemon}
-          />
+        render={() => {
+          return user.id ?
+            <FavPokemon
+              favPokemon={favPokemon}
+              isFave={isFave}
+              deletePokemon={deletePokemon}
+            />
+            :
+            <Redirect to="/login" />
+        }
+
         }
       />
 
