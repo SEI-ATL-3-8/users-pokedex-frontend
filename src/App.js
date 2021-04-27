@@ -6,6 +6,10 @@ import './App.css';
 import axios from 'axios'
 import {useState, useEffect} from 'react'
 
+import Signup from './pages/signup'
+import Login from './pages/login'
+import Profile from './pages/profile'
+
 function App() {
   const [favPokemon,setFavPokemon] = useState([])
   const [favPokemonNames, setFavPokemonNames] = useState([])
@@ -92,6 +96,19 @@ function App() {
         />
         }
       />
+
+      <Route path =  '/signup' 
+      render = {() =>
+      <Signup/>
+      }/>
+      <Route path =  '/login' 
+      render = {() => 
+      <Login />
+      }/>
+      <Route path =  '/profile' 
+      render = {() => 
+      <Profile />
+      }/>
       
     </div>
   );
