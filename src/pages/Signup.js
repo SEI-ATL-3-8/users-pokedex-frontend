@@ -22,9 +22,11 @@ const Signup = () => {
             body: JSON.stringify(formParams)
         });
 
+        if (response.status !== 201 ) throw new Error('Something Went Wrong');
+
         const data = await response.json();
 
-        console.log(data);
+        
 
         localStorage.setItem('userToken', data.userToken);
 
