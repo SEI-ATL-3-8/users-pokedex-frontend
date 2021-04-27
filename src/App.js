@@ -1,18 +1,33 @@
-import AllPokemon from './pages/AllPokemon'
-import FavPokemon from './pages/FavPokemon'
-import Navbar from './components/Navbar'
-import {Route} from 'react-router-dom'
 import './App.css';
 import axios from 'axios'
-import {useState, useEffect} from 'react'
+
+import Navbar from './components/Navbar'
+import AllPokemon from './pages/AllPokemon'
+import FavPokemon from './pages/FavPokemon'
+import Signup from './pages/Signup'
+import Login from './pages/Login'
+
+import { Route, Redirect } from 'react-router-dom'
+import { useState, useEffect, useContext } from 'react'
+import { GlobalContext } from './context/GlobalContext'
 
 function App() {
+  const { userState, fetchUser } = useContext(GlobalContext)
+  const [user, setUser] = userState
+
   const [favPokemon,setFavPokemon] = useState([])
   const [favPokemonNames, setFavPokemonNames] = useState([])
+
+  useEffect(fetchUser, [])
+
   // fetch saved pokemon from the database function
   const fetchSavedPokemon = async () => {
     try {
-      let response = await axios.get('http://localhost:3001/favPokemon')
+      let response = await axios.get('http://localhost:3001/favPokemon', {
+        headers: {
+          Authorization: user.id
+        }
+      })
       console.log(response)
       // assign to state of favPokemon
       setFavPokemon(response.data.favPokemon)
@@ -42,6 +57,11 @@ function App() {
     try {
       let res = await axios.post('http://localhost:3001/favPokemon', {
         name: pokemonName
+      },
+      {
+        headers: {
+          Authorization: user.id
+        }
       })
       // after every save, refetch all saved pokemon and update
       fetchSavedPokemon()
@@ -72,6 +92,7 @@ function App() {
   return (
     <div className="App">
       <Navbar />
+
       <Route 
         exact path = "/"
         render={() => 
@@ -85,13 +106,33 @@ function App() {
       <Route 
       exact path = "/favorites"
       render={() => 
-        <FavPokemon 
-        favPokemon ={favPokemon}
-        isFave = {isFave}
-        deletePokemon ={deletePokemon}
-        />
+        { user.id ?
+          <FavPokemon 
+          favPokemon ={favPokemon}
+          isFave = {isFave}
+          deletePokemon ={deletePokemon}
+          />
+        :
+          <Redirect to="/" />
         }
+      }
       />
+
+      <Route exact path="/user/signup">
+        { user.id ?
+          <Redirect to="/" />
+        :
+          <Signup />
+        }
+      </Route>
+
+      <Route exact path="/user/login">
+        { user.id ?
+          <Redirect to="/" />
+        :
+          <Login />
+        }
+      </Route>
       
     </div>
   );
