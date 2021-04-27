@@ -5,8 +5,11 @@ import {Route} from 'react-router-dom'
 import './App.css';
 import axios from 'axios'
 import {useState, useEffect} from 'react'
+import Login from './pages/Login'
+import Signup from './pages/Signup'
 
 function App() {
+  const[user, setUser] = useState({})
   const [favPokemon,setFavPokemon] = useState([])
   const [favPokemonNames, setFavPokemonNames] = useState([])
   // fetch saved pokemon from the database function
@@ -71,7 +74,7 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar />
+      <Navbar user={user} setUser={setUser}/>
       <Route 
         exact path = "/"
         render={() => 
@@ -91,6 +94,18 @@ function App() {
         deletePokemon ={deletePokemon}
         />
         }
+      />
+      <Route
+      exact path = "/login"
+      render={() =>
+        <Login user={user} setUser={setUser}/>
+      }
+      />
+      <Route
+      exact path = "/signup"
+      render={() =>
+        <Signup user={user} setUser={setUser}/>
+      }
       />
       
     </div>
