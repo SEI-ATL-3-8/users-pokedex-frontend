@@ -1,36 +1,97 @@
-.App {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-li {
-  list-style: none;
-}
-h1 {
-  margin: 0;
-}
-p {
-  margin: 0;
-}
-.allPokemon {
-  width: 500px;
-}
-.singlePokemon {
-  padding: 10px;
-  border: 1px solid black;
-  display: flex;
-  justify-content: space-between;
-}
-form {
-  margin: 10px 0;
+html,
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
-input {
-  font-size: 1.5rem;
-  width: 100%;
-  box-sizing: border-box;
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
 }
-.heartOutline {
-  font-size: 2rem;
-  cursor: pointer;
+
+body {
+   background: lightblue;
+}
+
+/* Navbar */
+
+nav ul {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+}
+
+nav {
+    padding: 10px;
+}
+
+nav li {
+    margin-right: 20px;
+}
+
+.card img {
+    width: 60px;
+    height: 60px;
+    margin: 10px auto;
+    display: block;
+}
+.card-holder {
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    height: 700px;
+    margin-top: 20px;
+}
+
+.card {
+    background: rgb(24, 26, 24);
+    box-shadow: 1px 1px 1px 1px rgba(128, 128, 128, 0.336);
+    padding: 60px;
+    margin: 10px;
+    border-radius: 30px;
+}
+
+.circle {
+    border-radius: 50%;
+}
+
+.card h2 {
+    text-align: center;
+    margin: unset;
+    margin-bottom: 10px;
+    color: rgb(255, 230, 87);
+}
+
+.col {
+    width: 25%;
+}
+
+/* Filter Bar */
+.filter-bar {
+    margin: 0 auto;
+   
+    width: 500px;
+
+}
+
+.filter-bar input {
+    width: 100%;
+    padding: 10px 20px;
+   
+    border: 0;
+    color: #000;
+    outline: none;
+    font-size: 24px;
+    border-radius: 20px;
+}
+
+/* Icons */
+.icon-large {
+    font-size: 36px;
+    text-align: center;
+    color: rgb(255, 230, 87);
+}
+.click {
+    cursor: pointer;
 }
