@@ -4,6 +4,8 @@
   align-items: center;
 }
 li {
+  display: inline;
+  margin-right: 8px;
   list-style: none;
 }
 h1 {
