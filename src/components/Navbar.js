@@ -1,21 +1,61 @@
 import {Link} from 'react-router-dom'
 
-const Navbar = () => {
+const Navbar = (props) => {
     return (
-        <ul>
-            <li>
+        <nav>
+            
                 <Link 
                 to="/">
-                    All Pokemon
+                    Home
                 </Link>
-            </li>
-            <li>
-                <Link 
-                to="/favorites">
-                    My Favorites
-                </Link>
-            </li>
-        </ul>
+           
+            
+     
+            {props.user.id ?
+            <div>
+                <span>
+                    <span onClick={()=>{
+                        localStorage.removeItem('userId')
+                        props.setUser({})
+                    }}>Logout</span>
+                </span>
+
+                
+                    <Link 
+                    to="/pokemon">
+                        All Pokemon
+                    </Link>
+                
+
+                
+                    <Link 
+                    to="/favorites">
+                        My Favorites
+                    </Link>
+                
+            </div>
+        
+            :
+            <div>
+                
+                    <Link 
+                    to="/signup">
+                        Signup
+                    </Link>
+                
+
+                
+                    <Link 
+                    to="/login">
+                        Login
+                    </Link>
+                
+            </div>
+
+            }
+
+
+        </nav>
     )
 }
 
