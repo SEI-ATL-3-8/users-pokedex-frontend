@@ -1,12 +1,17 @@
-import AllPokemon from './pages/AllPokemon'
-import FavPokemon from './pages/FavPokemon'
+
+import Home from './pages/Home'
 import Navbar from './components/Navbar'
-import {Route} from 'react-router-dom'
+import Login from './pages/Login'
+import Signup from './pages/Signup'
+import AllPokemon from './pages/AllPokemon'
+import { Redirect, Route } from 'react-router-dom'
+import env from 'react-dotenv'
 import './App.css';
 import axios from 'axios'
 import {useState, useEffect} from 'react'
 
 function App() {
+  const [user, setUser] = useState({})
   const [favPokemon,setFavPokemon] = useState([])
   const [favPokemonNames, setFavPokemonNames] = useState([])
   // fetch saved pokemon from the database function
@@ -73,26 +78,26 @@ function App() {
     <div className="App">
       <Navbar />
       <Route 
-        exact path = "/"
-        render={() => 
-          <AllPokemon
-          savePokemon = {savePokemon} 
-          isFave = {isFave}
-          deletePokemon ={deletePokemon}
-          />
-        }
+      exact path="/"
+      render={() => {
+        return <Home />
+      }}
       />
-      <Route 
-      exact path = "/favorites"
-      render={() => 
-        <FavPokemon 
-        favPokemon ={favPokemon}
-        isFave = {isFave}
-        deletePokemon ={deletePokemon}
-        />
-        }
-      />
-      
+     <Route 
+     path="/Login"
+     render={() => {
+       return <Login />
+     }}
+     />
+     <Route path="/Signup" 
+     render={() => {
+       if (user.id) {
+         return <Redirect to="/AllPokemon" />
+       } else {
+        return <Signup  setUser={setUser} />
+       } 
+     }}
+     />
     </div>
   );
 }
