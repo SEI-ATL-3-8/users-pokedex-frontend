@@ -4,59 +4,56 @@ import Navbar from './components/Navbar'
 import {Route, Redirect} from 'react-router-dom'
 import './App.css';
 import axios from 'axios'
-import {useState, useEffect, useContext} from 'react'
-import {UserContext} from './context/userContext'
+import env from 'react-dotenv'
+import {useState, useEffect} from 'react'
 import Home from './pages/Home'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
 
 function App() {
-  console.log(process.env.REACT_APP_BACKEND_URL);
+  const [user, setUser] = useState({})
+
+
   const [favPokemon,setFavPokemon] = useState([])
   const [favPokemonNames, setFavPokemonNames] = useState([])
-  const { userState, fetchUser } = useContext(UserContext)
-  const [user, setUser] = userState
-
-  useEffect(fetchUser, [])
-
+  // fetch saved pokemon from the database function
   const fetchSavedPokemon = async () => {
-    const userId = localStorage.getItem('userId')
     try {
-      let response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/favPokemon`,{
-        headers: {
-          Authorization: userId
-        }
-      })
-      console.log(response)
-     
-      setFavPokemon(response.data.favPokemon)
+      if(user.id){
 
-   
+        let response = await axios.get('http://localhost:3001/favPokemon')
+        console.log(response)
+        // assign to state of favPokemon
+        setFavPokemon(response.data.favPokemon)
+      }
+
+      // create an empty array
       let names = []
+      // loop through the favorite pokemon array 
       for(let pokemon of response.data.favPokemon) {
+        // only push the names of each favorited pokemon into names
         names.push(pokemon.name)
       }
+      // then set favpokemonnames to an array of just the saved pokemon names
+      // to be used in the isFave function
       setFavPokemonNames(names)
     } catch (error) {
       console.log(error)
     }
   }
 
+  // ONLY when the app loads fetch all saved pokemon 
+  // will not update saved pokemon everytime you save one!!!
   useEffect(() => {
     fetchSavedPokemon()
-  },[fetchUser])
+  },[])
 
   const savePokemon = async (pokemonName) => {
-    const userId = localStorage.getItem('userId')
     try {
-      let res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/favPokemon`, {
+      let res = await axios.post('http://localhost:3001/favPokemon', {
         name: pokemonName
-      },
-      {
-        headers: {
-          Authorization: userId
-      }
-    })
+      })
+      // after every save, refetch all saved pokemon and update
       fetchSavedPokemon()
       console.log(res)
     } catch (error) {
