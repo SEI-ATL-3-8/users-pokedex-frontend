@@ -41,6 +41,7 @@ const AllPokemon = (props) => {
 
     return (
         <div className="allPokemon">
+            <h1>Welcome Back, {`${props.user.name}`} </h1>
             <h1>All Pokemon</h1>
             <Filterbar 
             filteredSearch ={filteredSearch}
