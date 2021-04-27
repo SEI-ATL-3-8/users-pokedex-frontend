@@ -5,6 +5,9 @@ import {Route} from 'react-router-dom'
 import './App.css';
 import axios from 'axios'
 import {useState, useEffect} from 'react'
+import LogIn from './users/login';
+import LogOut from './users/logout';
+import SignUp from './users/signup';
 
 function App() {
   const [favPokemon,setFavPokemon] = useState([])
@@ -72,9 +75,7 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Route 
-        exact path = "/"
-        render={() => 
+      <Route exact path = "/" render={() => 
           <AllPokemon
           savePokemon = {savePokemon} 
           isFave = {isFave}
@@ -82,9 +83,7 @@ function App() {
           />
         }
       />
-      <Route 
-      exact path = "/favorites"
-      render={() => 
+      <Route exact path = "/favorites" render={() => 
         <FavPokemon 
         favPokemon ={favPokemon}
         isFave = {isFave}
@@ -93,6 +92,9 @@ function App() {
         }
       />
       
+      <Route exact path = '/login' render={() =><LogIn />} />
+      <Route exact path = '/logout' render={() => <LogOut />} />
+      <Route exact path = '/signup' render ={()=><SignUp />} />
     </div>
   );
 }
