@@ -6,15 +6,19 @@ import './App.css';
 import Signup from './pages/Signup'
 import Login from './pages/Login'
 import axios from 'axios'
-import {useState, useEffect, useReducer} from 'react'
+import {useState, useEffect, useContext} from 'react'
+import env from 'react-dotenv'
+import {UserContext} from './context/UserContext'
 
 function App() {
   const [favPokemon,setFavPokemon] = useState([])
   const [favPokemonNames, setFavPokemonNames] = useState([])
   // fetch saved pokemon from the database function
+  const {userState , fetchUser} = useContext(UserContext)
+  const [user, setUser] = useState({})
   const fetchSavedPokemon = async () => {
     try {
-      let response = await axios.get('http://localhost:3001/favPokemon')
+      let response = await axios.get(`${env.BACKEND_URL}/favPokemon`)
       console.log(response)
       // assign to state of favPokemon
       setFavPokemon(response.data.favPokemon)
@@ -42,7 +46,7 @@ function App() {
 
   const savePokemon = async (pokemonName) => {
     try {
-      let res = await axios.post('http://localhost:3001/favPokemon', {
+      let res = await axios.post(`${env.BACKEND_URL}/favPokemon`, {
         name: pokemonName
       })
       // after every save, refetch all saved pokemon and update
@@ -63,7 +67,7 @@ function App() {
 
     const deletePokemon = async (pokemonName) => {
       try {
-        let res = await axios.delete(`http://localhost:3001/favPokemon/${pokemonName}`)
+        let res = await axios.delete(`${env.BACKEND_URL}/${pokemonName}`)
         console.log(res)
         fetchSavedPokemon()
       } catch (error) {
