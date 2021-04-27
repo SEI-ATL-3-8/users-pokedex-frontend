@@ -1,8 +1,25 @@
 import {Link} from 'react-router-dom'
 
-const Navbar = () => {
+const Navbar = (props) => {
     return (
         <ul>
+            <span>
+            <span onClick = {() => {localStorage.removeItem('userId')
+            props.setUser({})
+                }}>Log-Out</span>
+            </span>
+            <li>
+                <Link 
+                to="/signup">
+                    Sign Up
+                </Link>
+            </li>
+            <li>
+                <Link 
+                to="/login">
+                    Login
+                </Link>
+            </li>
             <li>
                 <Link 
                 to="/">

@@ -1,18 +1,31 @@
 import AllPokemon from './pages/AllPokemon'
 import FavPokemon from './pages/FavPokemon'
 import Navbar from './components/Navbar'
-import {Route} from 'react-router-dom'
+import SignUp from './pages/SignUp'
+import Login from './pages/Login'
+import {Route, Redirect} from 'react-router-dom'
 import './App.css';
 import axios from 'axios'
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useContext} from 'react'
+import { UserContext } from './context/UserContext'
 
 function App() {
   const [favPokemon,setFavPokemon] = useState([])
   const [favPokemonNames, setFavPokemonNames] = useState([])
+
+  const {userState, fetchUser} = useContext(UserContext)
+  const [user, setUser] = userState
+
+  useEffect(fetchUser, [])
+
   // fetch saved pokemon from the database function
   const fetchSavedPokemon = async () => {
     try {
-      let response = await axios.get('http://localhost:3001/favPokemon')
+      let response = await axios.get('http://localhost:3001/favPokemon', {
+        headers: {
+          Authorization: user.id
+        }
+      })
       console.log(response)
       // assign to state of favPokemon
       setFavPokemon(response.data.favPokemon)
@@ -42,6 +55,10 @@ function App() {
     try {
       let res = await axios.post('http://localhost:3001/favPokemon', {
         name: pokemonName
+      }, {
+        headers: {
+          Authorization: user.id
+        }
       })
       // after every save, refetch all saved pokemon and update
       fetchSavedPokemon()
@@ -72,6 +89,23 @@ function App() {
   return (
     <div className="App">
       <Navbar />
+
+      <Route path = '/signup' render = {() => {
+        if (user.id) {
+          return <Redirect to = '/favorites' />
+        } else {
+          return <SignUp setUser = {setUser} />
+        }
+      }} />
+
+      <Route path = '/login' render = {() => {
+        if (user.id) {
+          return <Redirect to = '/favorites' />
+        } else {
+          return <Login setUser = {setUser} />
+        }
+      }} />
+
       <Route 
         exact path = "/"
         render={() => 
@@ -82,6 +116,7 @@ function App() {
           />
         }
       />
+
       <Route 
       exact path = "/favorites"
       render={() => 
