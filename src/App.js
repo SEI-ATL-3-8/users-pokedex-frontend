@@ -1,5 +1,7 @@
 import AllPokemon from './pages/AllPokemon'
 import FavPokemon from './pages/FavPokemon'
+import Login from './pages/Login'
+import Signup from './pages/Signup'
 import Navbar from './components/Navbar'
 import {Route} from 'react-router-dom'
 import './App.css';
@@ -92,7 +94,8 @@ function App() {
         />
         }
       />
-      
+      <Route exact path ="/signup" render = {() => <Signup/>}/>
+      <Route exact path ="/login" render = {() => <Login/>}/>
     </div>
   );
 }

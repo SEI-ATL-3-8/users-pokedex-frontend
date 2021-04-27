@@ -15,6 +15,28 @@ const Navbar = () => {
                     My Favorites
                 </Link>
             </li>
+            <li>
+                <Link 
+                to="/login">
+                    Log In
+                </Link>
+            </li>
+            <li>
+                <Link 
+                to="/signup">
+                    Signup
+                </Link>
+            </li>
+            <li>
+            <span
+                onClick={() => {
+                    console.log('youre logged out!')
+                }}
+            >
+
+
+            </span>
+            </li>
         </ul>
     )
 }
